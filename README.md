@@ -1,4 +1,4 @@
-# @tricksumo/async-sockets
+# @tricksumo/ws-await
 
 > async/await for AWS Lambda WebSockets
 
@@ -41,7 +41,7 @@ No polling. No global message listeners. Just async/await.
 ## Install
 
 ```bash
-npm install @tricksumo/async-sockets zustand
+npm install @tricksumo/ws-await zustand
 ```
 
 ---
@@ -75,7 +75,7 @@ export const handler = async (event) => {
 ### Step 2 - Set up the client
 
 ```ts
-import { useSocket, createSocket } from '@tricksumo/async-sockets'
+import { useSocket, createSocket } from '@tricksumo/ws-await'
 import { useEffect } from 'react'
 
 const ws = createSocket({
@@ -121,7 +121,7 @@ export default App
 ## React - connection state in components
 
 ```tsx
-import { useSocket } from '@tricksumo/async-sockets'
+import { useSocket } from '@tricksumo/ws-await'
 
 function StatusBar() {
   const { isConnected, isConnecting, error } = useSocket()

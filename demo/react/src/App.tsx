@@ -1,4 +1,4 @@
-import { useSocket, createSocket } from '@tricksumo/async-sockets'
+import { useSocket, createSocket } from '@tricksumo/ws-await'
 import { useEffect } from 'react'
 import './App.css'
 
