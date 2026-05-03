@@ -1,0 +1,6 @@
+node_modules
+dist
+.yalc
+.env
+cdk.out
+*.log

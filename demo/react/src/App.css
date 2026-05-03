@@ -1,0 +1,15 @@
+.box {
+  border: 1px solid black;
+  padding: 10px;
+  margin-bottom: 20px
+}
+
+.btn-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100px;
+  border: 1px solid rgb(29, 190, 234);
+  padding: 10px;
+  margin-bottom: 20px
+}
