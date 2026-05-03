@@ -12,7 +12,7 @@ const ws = createSocket({
   //   return accessToken;
   // },
   onMessage: (msg) => {
-    alert('Received message: ' + msg)
+    alert('Received message: ' + msg.message)
   },
   // options: {
   //   timeout: 30000,

@@ -72,10 +72,10 @@ export const handler = async (event) => {
 }
 ```
 
-### Step 2 - Set up the client
+### Step 2 - Set up the client (Request/Response)
 
 ```ts
-import { useSocket, createSocket } from '@tricksumo/ws-await'
+import { createSocket } from '@tricksumo/ws-await'
 import { useEffect } from 'react'
 
 const ws = createSocket({
@@ -83,8 +83,6 @@ const ws = createSocket({
 })
 
 function App() {
-
-  const { isConnected, isConnecting, isDisConnected, error } = useSocket()
 
   useEffect(() => {
     ws.connect()
@@ -102,13 +100,61 @@ function App() {
   }
 }
   return (
-    <>
       <div>
         <button onClick={handleGetSignedURL}>
           Click to get signed URL
         </button>
       </div>
+  )
+}
 
+export default App
+```
+
+### Step 3 - Set up the client (Normal Fire and Forget WS Messages)
+
+```ts
+import { createSocket } from '@tricksumo/ws-await'
+import { useEffect } from 'react'
+
+const ws = createSocket({
+  url: 'wss://3z5uo23u2d.execute-api.us-east-1.amazonaws.com/prod',
+  getAuthToken: async () => {
+    const sessionStoragKeys = Object.keys(sessionStorage);
+    const oidcKey = sessionStoragKeys.find(key => key.startsWith("oidc.user:https://cognito-idp."));
+    const oidcContext = JSON.parse(sessionStorage.getItem(oidcKey!) || "{}");
+    const accessToken = oidcContext?.access_token;
+    return accessToken;
+  },
+  onMessage: (msg) => {
+    alert('Received message: ' + msg.message)
+  },
+  options: {
+    timeout: 30000,
+    heartbeatInterval: 60000,
+    maxReconnectAttempts: 3
+  }
+})
+
+function App() {
+
+  useEffect(() => {
+    ws.connect()
+
+    return () => {
+      ws.disconnect()
+    }
+  }, [])
+
+
+  return (
+      <div>
+        <button onClick={() => {
+          ws.send('ping')
+        }}>
+          Send Message
+        </button>
+      </div>
     </>
   )
 }
@@ -176,5 +222,4 @@ If your Lambda response does not include `requestId`, the message is treated as 
 | `options.timeout` | `number` | `30000` | ms before a `request()` rejects with timeout error |
 | `options.heartbeatInterval` | `number` | `300000` | ms between pings — keeps AWS API Gateway alive (idle limit is 10 min) |
 | `options.maxReconnectAttempts` | `number` | `5` | Reconnect attempts with exponential backoff before giving up |
-
 ---
